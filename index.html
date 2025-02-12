@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Proposal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background layers */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+        }
+
+        /* Gradient overlay */
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+            opacity: 0.85;
+            z-index: -1;
+        }
+
+        /* Stitch pattern background */
+        .stitch-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('stitch-pattern.jpeg');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 3rem;
+        }
+
+        #no-count {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #ff4b7d;
+            font-size: 1.1rem;
+            padding: 0.5rem;
+        }
+
+        h1 {
+            color: #ff4b7d;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .image-container {
+            margin: 1.5rem auto;
+            width: 300px;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+
+        .proposal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .image-container:hover .proposal-image {
+            transform: scale(1.05);
+        }
+
+        h2 {
+            color: #ff6b9d;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .buttons-section {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(255, 107, 157, 0.2);
+            min-height: 150px;
+            position: relative;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .btn {
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-yes {
+            background: linear-gradient(to right, #4CAF50, #45a049);
+            color: white;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .btn-no {
+            background: linear-gradient(to right, #ff4b4b, #ff3333);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .success-container {
+            display: none;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            .image-container {
+                width: 200px;
+                height: 200px;
+            }
+
+            .btn {
+                padding: 0.8rem 2rem;
+                font-size: 1.1rem;
+            }
+
+            .btn-container {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background layers -->
+    <div class="background-container">
+        <div class="stitch-pattern"></div>
+    </div>
+    <div class="gradient-overlay"></div>
+    
+    <!-- Main content -->
+    <div class="container" id="proposal">
+        <div class="content-wrapper">
+            <h1>Will you be my Valentine? 🥺🤍 </h1>
+            <div class="image-container">
+                <img src="willyoubemyvalentine.jpeg" alt="Cute Stitch" class="proposal-image" id="stitch-image">
+            </div>
+            <h2 id="question">Please say yes! 🥺</h2>
+            <p id="no-count"></p>
+        </div>
+        <div class="buttons-section">
+            <div class="btn-container">
+                <button class="btn btn-yes" onclick="sayYes()">Yes 😊</button>
+                <button class="btn btn-no" onclick="sayNo()" id="noButton">No 😢</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container success-container" id="success">
+        <h1>Yay! I love you too! ❤️</h1>
+        <div class="image-container">
+            <img src="whenyes.jpeg" alt="Happy Stitch" class="proposal-image">
+        </div>
+        <h2>You've made me the happiest person alive!</h2>
+        <p>Get ready for endless love and adventures together! 🚀</p>
+    </div>
+
+    <script>
+        const phrasesAndImages = [
+            {
+                phrase: "Are you sure?",
+                image: "areyousure.jpeg"
+            },
+            {
+                phrase: "Think again!",
+                image: "thinkagain.jpeg"
+            },
+            {
+                phrase: "Last chance!",
+                image: "haveaheart.jpeg"
+            },
+            {
+                phrase: "Don't break my heart! 💔",
+                image: "don'tbreakmyheart.jpeg"
+            },
+            {
+                phrase: "I'll buy you chocolate! 🍫",
+                image: "chocolate.jpeg"
+            },
+            {
+                phrase: "Pretty please? 🥺",
+                image: "prettyplease.jpeg"
+            },
+            {
+                phrase: "But we're perfect together!",
+                image: "love.jpeg"
+            },
+            {
+                phrase: "You're the only one for me! ❤️",
+                image: "giveitanotherthought.jpeg"
+            }
+        ];
+
+        let noCount = 0;
+        const proposal = document.getElementById('proposal');
+        const success = document.getElementById('success');
+        const question = document.getElementById('question');
+        const noButton = document.getElementById('noButton');
+        const noCountDisplay = document.getElementById('no-count');
+        const yesButton = document.querySelector('.btn-yes');
+        const stitchImage = document.getElementById('stitch-image');
+
+        function sayNo() {
+            noCount++;
+            
+            // Update phrase and image
+            const index = (noCount - 1) % phrasesAndImages.length;
+            const currentPhrase = phrasesAndImages[index];
+            question.textContent = currentPhrase.phrase;
+            stitchImage.src = currentPhrase.image;
+            
+            if (noCount > 1) {
+                noCountDisplay.textContent = `You've said no ${noCount} times, but I won't give up!😒 `;
+            }
+
+            // Scale up the yes button
+            const scale = Math.min(1 + (noCount * 0.3), 2.5);
+            const fontSize = Math.min(16 + (noCount * 2), 32);
+            const padding = Math.min(0.8 + (noCount * 0.2), 2);
+            
+            yesButton.style.transform = `scale(${scale})`;
+            yesButton.style.fontSize = `${fontSize}px`;
+            yesButton.style.padding = `${padding}rem ${padding * 1.5}rem`;
+
+            // Move the No button to a random position within the buttons section
+            const buttonsSection = document.querySelector('.buttons-section');
+            const maxX = buttonsSection.offsetWidth - noButton.offsetWidth;
+            const maxY = buttonsSection.offsetHeight - noButton.offsetHeight;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${randomX}px`;
+            noButton.style.top = `${randomY}px`;
+        }
+
+        function sayYes() {
+            proposal.style.display = 'none';
+            success.style.display = 'block';
+        }
+
+        // Set initial image
+        stitchImage.src = "willyoubemyvalentine.jpeg";
+    </script>
+</body>
+</html>
